@@ -1,0 +1,235 @@
+{
+	"info": {
+		"_postman_id": "a8f3b9c2-5d1e-4c7a-9e12-8b43f9a12345",
+		"name": "Home Services Booking API",
+		"description": "Postman collection for Home Services Booking REST API assignment (AdityaX Innovations)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Services",
+			"item": [
+				{
+					"name": "GET All Services",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/services",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"services"
+							]
+						},
+						"description": "Fetch all available home services preloaded on startup."
+					},
+					"response": []
+				},
+				{
+					"name": "GET Services with Search Filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/services?search=clean",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"services"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "clean"
+								}
+							]
+						},
+						"description": "Search services by name (e.g. 'clean')."
+					},
+					"response": []
+				},
+				{
+					"name": "GET Service by ID (Valid)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/services/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"services",
+								"1"
+							]
+						},
+						"description": "Get detailed information for a single service by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "GET Service by ID (404 Not Found)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/services/999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"services",
+								"999"
+							]
+						},
+						"description": "Tests 404 response when service does not exist."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Bookings",
+			"item": [
+				{
+					"name": "POST Create Booking (Valid)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serviceId\": 1,\n    \"name\": \"Rahul Sharma\",\n    \"phone\": \"9876543210\",\n    \"address\": \"Flat 402, Green Valley Apartments, Kharadi, Pune\",\n    \"date\": \"2026-10-25\",\n    \"timeSlot\": \"10:00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "Creates a new booking with initial PENDING status."
+					},
+					"response": []
+				},
+				{
+					"name": "POST Create Booking (400 Validation Error - Invalid Phone & Empty Name)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serviceId\": 1,\n    \"name\": \"\",\n    \"phone\": \"12345\",\n    \"address\": \"\",\n    \"date\": \"2020-01-01\",\n    \"timeSlot\": \"10:00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "Tests 400 Bad Request with field-wise error messages."
+					},
+					"response": []
+				},
+				{
+					"name": "POST Create Booking (404 Service Not Found)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"serviceId\": 9999,\n    \"name\": \"Pooja Patel\",\n    \"phone\": \"9123456789\",\n    \"address\": \"A-102, Koregaon Park, Pune\",\n    \"date\": \"2026-10-25\",\n    \"timeSlot\": \"14:00:00\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "Tests 404 response when booking a non-existent service."
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings"
+							]
+						},
+						"description": "List all user bookings."
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH Cancel Booking (Bonus)",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/bookings/1/cancel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"bookings",
+								"1",
+								"cancel"
+							]
+						},
+						"description": "Bonus endpoint: Updates booking status to CANCELLED."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
